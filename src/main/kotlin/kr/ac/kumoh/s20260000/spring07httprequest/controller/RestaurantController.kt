@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -18,9 +19,20 @@ class RestaurantController(
     }
 
     @GetMapping
-    fun list(): ResponseEntity<List<Restaurant>> {
-        log.info("맛집 목록 조회 요청")
+    fun list(
+        @RequestParam(required = false) category: String?,
+    ): ResponseEntity<List<Restaurant>> {
+        log.info("맛집 목록 조회 요청 - category: $category")
 
-        return ResponseEntity.ok(service.getAllRestaurants())
+        val  allRestaurants = service.getAllRestaurants()
+        val filteredList = if (category != null) {
+            allRestaurants.filter { it.category == category }
+        } else {
+            allRestaurants
+        }
+
+        log.info("조회된 맛집 수: ${filteredList.size}")
+
+        return ResponseEntity.ok(filteredList)
     }
 }
