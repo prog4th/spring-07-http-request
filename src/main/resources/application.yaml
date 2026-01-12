@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-07-http-request
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level [%X{traceId}] %logger{36} - %msg%n"
