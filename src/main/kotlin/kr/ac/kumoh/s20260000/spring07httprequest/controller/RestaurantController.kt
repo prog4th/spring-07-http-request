@@ -1,0 +1,26 @@
+package kr.ac.kumoh.s20260000.spring07httprequest.controller
+
+import kr.ac.kumoh.s20260000.spring07httprequest.model.Restaurant
+import kr.ac.kumoh.s20260000.spring07httprequest.service.RestaurantService
+import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+@RequestMapping("/api/v1/restaurants")
+class RestaurantController(
+    private val service: RestaurantService
+) {
+    companion object {
+        private val log = LoggerFactory.getLogger(RestaurantController::class.java)
+    }
+
+    @GetMapping
+    fun list(): ResponseEntity<List<Restaurant>> {
+        log.info("맛집 목록 조회 요청")
+
+        return ResponseEntity.ok(service.getAllRestaurants())
+    }
+}
